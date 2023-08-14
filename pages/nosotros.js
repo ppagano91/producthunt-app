@@ -2,11 +2,11 @@ import React from 'react'
 import Layout from '../components/layout/Layout'
 
 
-export default function Home() {
+export default function Nosotros() {
   return (
     <div >
       <Layout>
-        <h1>INICIO</h1>
+        <h1>NOSOTROS</h1>
       </Layout>
       
     </div>
