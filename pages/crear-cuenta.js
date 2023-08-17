@@ -5,6 +5,7 @@ import {
   Formulario,
   Campo,
   InputSubmit,
+  Error,
 } from "../components/user-interface/Formulario";
 
 // validaciones
@@ -18,7 +19,7 @@ const STATE_INICIAL = {
 };
 
 const CrearCuenta = () => {
-  const { valores, errores, submitForm, handleSubmit, handleChange } =
+  const { valores, errores, handleSubmit, handleChange, handleBlur } =
     useValidacion(STATE_INICIAL, validarCrearCuenta, crearCuenta);
 
   const { nombre, email, password } = valores;
@@ -42,36 +43,68 @@ const CrearCuenta = () => {
           <Formulario onSubmit={handleSubmit} noValidate>
             <Campo>
               <label htmlFor="nombre">Nombre</label>
-              <input
-                type="text"
-                id="nombre"
-                placeholder="Tu Nombre"
-                name="nombre"
-                value={nombre}
-                onChange={handleChange}
-              />
+              <div
+                css={css`
+                  display: flex;
+                  flex-direction: column;
+                  width: 100%;
+                `}
+              >
+                <input
+                  type="text"
+                  id="nombre"
+                  placeholder="Tu Nombre"
+                  name="nombre"
+                  value={nombre}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                />
+                {errores.nombre && <Error>{errores.nombre}</Error>}
+              </div>
             </Campo>
+
             <Campo>
               <label htmlFor="email">Email</label>
-              <input
-                type="email"
-                id="email"
-                placeholder="Tu email"
-                name="email"
-                value={email}
-                onChange={handleChange}
-              />
+              <div
+                css={css`
+                  display: flex;
+                  flex-direction: column;
+                  width: 100%;
+                `}
+              >
+                <input
+                  type="email"
+                  id="email"
+                  placeholder="Tu email"
+                  name="email"
+                  value={email}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                />
+                {errores.email && <Error>{errores.email}</Error>}
+              </div>
             </Campo>
+
             <Campo>
               <label htmlFor="password">Password</label>
-              <input
-                type="password"
-                id="password"
-                placeholder="Tu password"
-                name="password"
-                value={password}
-                onChange={handleChange}
-              />
+              <div
+                css={css`
+                  display: flex;
+                  flex-direction: column;
+                  width: 100%;
+                `}
+              >
+                <input
+                  type="password"
+                  id="password"
+                  placeholder="Tu password"
+                  name="password"
+                  value={password}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                />
+                {errores.password && <Error>{errores.password}</Error>}
+              </div>
             </Campo>
             <InputSubmit type="submit" value="Crear Cuenta" />
           </Formulario>

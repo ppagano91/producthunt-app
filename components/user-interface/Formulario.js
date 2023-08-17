@@ -65,3 +65,17 @@ const StyledButton = styled.button`
     background-color: #e7e7e7;
   }
 `;
+
+export const Error = styled.span`
+  /* background-color: red; */
+  /* padding: 1rem; */
+  font-family: "PT Sans", sans-serif;
+  /* font-weight: 700; */
+  /* font-size: 1.4rem; */
+  font-size: 1rem;
+  /* color: #fff; */
+  color: red;
+  /* text-align: center; */
+  text-transform: uppercase;
+  /* margin: 2rem 0; */
+`;
