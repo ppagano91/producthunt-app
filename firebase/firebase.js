@@ -21,16 +21,11 @@ class Firebase {
     return await nuevoUsuario.user.updateProfile({
       displayName: nombre,
     });
+  }
 
-    /*return app
-      .auth()
-      .createUserWithEmailAndPassword(email, password)
-      .then((user) => {
-        return user.user.updateProfile({
-          displayName: nombre,
-        });
-      });
-      */
+  // Iniciar sesión del usuario
+  async login(email, password) {
+    return this.auth.signInWithEmailAndPassword(email, password);
   }
 }
 
