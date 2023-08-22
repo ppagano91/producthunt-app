@@ -8,6 +8,7 @@ function MyApp({ Component, pageProps }) {
     <FirebaseContext.Provider
       value={{
         firebase,
+        usuario,
       }}
     >
       <Component {...pageProps} />
