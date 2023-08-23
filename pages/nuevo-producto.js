@@ -14,7 +14,7 @@ import firebase from "../firebase";
 
 // validaciones
 import { useValidacion } from "../hooks/useValidacion";
-import validarCrearCuenta from "../validation/validarCrearCuenta";
+import validarCrearProducto from "../validation/validarCrearProducto";
 
 const STATE_INICIAL = {
   nombre: "",
@@ -27,7 +27,7 @@ const NuevoProducto = () => {
   const [error, setError] = useState(false);
 
   const { valores, errores, handleSubmit, handleChange, handleBlur } =
-    useValidacion(STATE_INICIAL, validarCrearCuenta, crearCuenta);
+    useValidacion(STATE_INICIAL, validarCrearProducto, crearCuenta);
 
   const { nombre, empresa, imagen, url, descripcion } = valores;
 
@@ -91,7 +91,7 @@ const NuevoProducto = () => {
                 </div>
               </Campo>
 
-              <Campo>
+              {/* <Campo>
                 <label htmlFor="imagen">Imagen</label>
                 <div
                   css={css`
@@ -110,7 +110,7 @@ const NuevoProducto = () => {
                   />
                   {errores.imagen && <Error>{errores.imagen}</Error>}
                 </div>
-              </Campo>
+              </Campo> */}
 
               <Campo>
                 <label htmlFor="url">URL</label>
@@ -125,6 +125,7 @@ const NuevoProducto = () => {
                     type="text"
                     id="url"
                     name="url"
+                    placeholder="URL de tu producto"
                     value={url}
                     onChange={handleChange}
                     onBlur={handleBlur}
