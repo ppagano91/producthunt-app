@@ -13,6 +13,7 @@ import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import { es } from "date-fns/locale";
 
 import { Campo, InputSubmit } from "../../components/user-interface/Formulario";
+import Boton from "../../components/user-interface/Boton";
 
 const ContenedorProducto = styled.div`
   @media (min-width: 768px) {
@@ -85,7 +86,6 @@ const IdProducto = () => {
                 Publicado hace:{" "}
                 {formatDistanceToNow(new Date(creado), { locale: es })}
               </p>
-              <p>Por: {empresa}</p>
               <img src={imagen} />
               <p>{descripcion}</p>
               <h2>Agrega tu comentario</h2>
@@ -109,7 +109,25 @@ const IdProducto = () => {
                 </li>
               ))}
             </div>
-            <aside></aside>
+            <aside>
+              <Boton target="_blank" bgColor="true" href={url}>
+                Visitar URL
+              </Boton>
+              <div
+                css={css`
+                  margin-top: 5rem;
+                `}
+              >
+                <p
+                  css={css`
+                    text-align: center;
+                  `}
+                >
+                  {votos} Votos
+                </p>
+                <Boton>Votar</Boton>
+              </div>
+            </aside>
           </ContenedorProducto>
         </div>
       </>
