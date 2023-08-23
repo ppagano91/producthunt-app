@@ -215,22 +215,24 @@ const NuevoProducto = () => {
                 <legend>Sobre tu Producto</legend>
                 <Campo>
                   <label htmlFor="descripcion">Descripción</label>
-                  {/* <div
-                  css={css`
-                    display: flex;
-                    flex-direction: column;
-                    width: 100%;
-                  `}
-                > */}
-                  <textarea
-                    id="descripcion"
-                    name="descripcion"
-                    value={descripcion}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                  />
-                  {errores.descripcion && <Error>{errores.descripcion}</Error>}
-                  {/* </div> */}
+                  <div
+                    css={css`
+                      display: flex;
+                      flex-direction: column;
+                      width: 100%;
+                    `}
+                  >
+                    <textarea
+                      id="descripcion"
+                      name="descripcion"
+                      value={descripcion}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                    {errores.descripcion && (
+                      <Error>{errores.descripcion}</Error>
+                    )}
+                  </div>
                 </Campo>
               </fieldset>
 

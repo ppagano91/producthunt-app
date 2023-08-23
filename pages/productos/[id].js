@@ -124,7 +124,7 @@ const IdProducto = () => {
 
   //   identifica si el comentario es del creador del producto
   const esCreador = (id) => {
-    if (creador.id === id) {
+    if (creador?.id === id) {
       return true;
     }
   };
@@ -157,6 +157,34 @@ const IdProducto = () => {
     setConsultarDB(true); // hay un comentario, por lo tanto consultar a la BD
   };
 
+  //   Funcion que revisa que el creador del producto sea el mismo que esta autenticado
+  const puedeBorrar = () => {
+    if (!usuario) return false;
+
+    if (creador?.id === usuario.uid) {
+      return true;
+    }
+  };
+
+  //   elimina un producto de la BD
+  const eliminarProducto = async () => {
+    if (!usuario) {
+      return router.push("/login");
+    }
+    if (creador.id !== usuario.uid) {
+      return router.push("/");
+    }
+    if (!confirm("¿Estas seguro de eliminar el producto?")) {
+      return;
+    }
+    try {
+      await firebase.db.collection("productos").doc(id).delete();
+      router.push("/");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <Layout>
       <>
@@ -179,7 +207,8 @@ const IdProducto = () => {
                   {formatDistanceToNow(new Date(creado), { locale: es })}
                 </p>
                 <p>
-                  Por <strong>{creador.nombre}</strong> de <i>{empresa}</i>
+                  Por <strong>{creador?.nombre ? creador.nombre : null}</strong>{" "}
+                  de <i>{empresa}</i>
                 </p>
                 <img
                   src={imagen}
@@ -272,6 +301,23 @@ const IdProducto = () => {
                 </div>
               </aside>
             </ContenedorProducto>
+            {puedeBorrar() && (
+              <Boton
+                onClick={eliminarProducto}
+                css={css`
+                  margin-top: 2rem;
+
+                  &:hover {
+                    cursor: pointer;
+                    background-color: #da552f;
+                    color: #fff;
+                    transition: background-color 0.3s ease;
+                  }
+                `}
+              >
+                Eliminar Producto
+              </Boton>
+            )}
           </div>
         )}
       </>
