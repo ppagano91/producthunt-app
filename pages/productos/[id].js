@@ -65,6 +65,7 @@ const IdProducto = () => {
     url,
     imagen,
     votos,
+    creador,
   } = producto;
 
   return (
@@ -83,8 +84,11 @@ const IdProducto = () => {
           <ContenedorProducto>
             <div>
               <p>
-                Publicado hace:{" "}
+                Publicado hace{" "}
                 {formatDistanceToNow(new Date(creado), { locale: es })}
+              </p>
+              <p>
+                Por <strong>{creador.nombre}</strong> de <i>{empresa}</i>
               </p>
               <img src={imagen} />
               <p>{descripcion}</p>
@@ -113,6 +117,7 @@ const IdProducto = () => {
               <Boton target="_blank" bgColor="true" href={url}>
                 Visitar URL
               </Boton>
+
               <div
                 css={css`
                   margin-top: 5rem;
