@@ -16,12 +16,23 @@ import { Campo, InputSubmit } from "../../components/user-interface/Formulario";
 import Boton from "../../components/user-interface/Boton";
 import { set } from "date-fns";
 
-const ContenedorProducto = styled.div`
+// styled components
+const ContenedorProducto = styled.span`
   @media (min-width: 768px) {
     display: grid;
     grid-template-columns: 2fr 1fr;
     column-gap: 2rem;
   }
+`;
+const CreadorProducto = styled.p`
+  /* padding: 0.5rem; */
+  /* font-size: 1.2rem; */
+  /* background-color: rgba(0, 0, 0, 0.5); */
+  /* color: #fff; */
+  font-style: italic;
+  /* font-weight: bold; */
+  /* display: inline-block; */
+  /* text-align: center; */
 `;
 
 const IdProducto = () => {
@@ -107,6 +118,13 @@ const IdProducto = () => {
       ...comentario,
       [e.target.name]: e.target.value,
     });
+  };
+
+  //   identifica si el comentario es del creador del producto
+  const esCreador = (id) => {
+    if (creador.id === id) {
+      return true;
+    }
   };
 
   const agregarComentario = (e) => {
@@ -206,16 +224,26 @@ const IdProducto = () => {
                         `}
                       >
                         <p>{comentario.mensaje}</p>
-                        <p>
-                          Escrito por
-                          <span
-                            css={css`
-                              font-weight: bold;
-                            `}
-                          >
-                            {""} {comentario.usuarioNombre}
-                          </span>
-                        </p>
+                        <div
+                          css={css`
+                            display: flex;
+                          `}
+                        >
+                          <p>
+                            Escrito por
+                            <span
+                              css={css`
+                                font-weight: bold;
+                              `}
+                            >
+                              {""} {comentario.usuarioNombre}
+                              &nbsp;
+                            </span>
+                          </p>
+                          {esCreador(comentario.usuarioId) && (
+                            <CreadorProducto>{""}(Autor)</CreadorProducto>
+                          )}
+                        </div>
                       </li>
                     ))}
                   </ul>
