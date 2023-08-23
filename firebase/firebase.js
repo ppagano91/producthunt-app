@@ -1,5 +1,6 @@
 import app from "firebase/compat/app";
 import "firebase/compat/auth";
+import "firebase/compat/firestore";
 
 import firebaseConfig from "./config";
 
@@ -10,6 +11,7 @@ class Firebase {
     }
     console.log(firebaseConfig);
     this.auth = app.auth();
+    this.db = app.firestore();
   }
 
   async registrar(nombre, email, password) {
