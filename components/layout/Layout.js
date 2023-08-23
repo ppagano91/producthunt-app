@@ -2,6 +2,7 @@ import React from "react";
 import Header from "./Header";
 import { Global, css } from "@emotion/react";
 import Head from "next/head";
+import { Html } from "next/document";
 
 const Layout = (props) => {
   return (
@@ -61,7 +62,6 @@ const Layout = (props) => {
         `}
       />
       <Head>
-        <html lang="es" />
         <title>Product Hunt Firebase y Next.js</title>
         <link
           href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"

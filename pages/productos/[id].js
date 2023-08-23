@@ -40,6 +40,7 @@ const IdProducto = () => {
   const [producto, setProducto] = useState({});
   const [error, setError] = useState(false);
   const [comentario, setComentario] = useState({});
+  const [consultarDB, setConsultarDB] = useState(true);
 
   // routing para obtener el id actual
   const router = useRouter();
@@ -51,24 +52,23 @@ const IdProducto = () => {
   const { usuario, firebase } = useContext(FirebaseContext);
 
   useEffect(() => {
-    if (id) {
+    if (id && consultarDB) {
       const obtenerProducto = async () => {
         const productoQuery = await firebase.db.collection("productos").doc(id);
         const producto = await productoQuery.get();
         if (producto.exists) {
           setProducto(producto.data());
-          setError(false);
+          setConsultarDB(false);
         } else {
           setError(true);
+          setConsultarDB(false);
         }
       };
       obtenerProducto();
-    } else {
-      setError(true);
     }
   }, [id]);
 
-  //   if (Object.keys(producto).length === 0) return "Cargando...";
+  if (Object.keys(producto).length === 0 && !error) return "Cargando...";
 
   const {
     nombre,
@@ -110,6 +110,8 @@ const IdProducto = () => {
       votos: nuevoTotal,
       haVotado,
     });
+
+    setConsultarDB(true); // hay un voto, por lo tanto consultar a la BD
   };
 
   //   Funciones para crear comentarios
@@ -151,15 +153,15 @@ const IdProducto = () => {
       ...producto,
       comentarios: nuevosComentarios,
     });
+
+    setConsultarDB(true); // hay un comentario, por lo tanto consultar a la BD
   };
 
   return (
     <Layout>
       <>
         {error ? (
-          <Error404 msg="Producto no existente" />
-        ) : Object.keys(producto).length === 0 ? (
-          "Cargando..."
+          <Error404 msg="El ID del producto no existe" />
         ) : (
           <div className="contenedor">
             <h1
