@@ -44,8 +44,6 @@ const IdProducto = () => {
         const productoQuery = await firebase.db.collection("productos").doc(id);
         const producto = await productoQuery.get();
         if (producto.exists) {
-          console.log(producto.exists);
-          console.log(producto.data());
           setProducto(producto.data());
           setError(false);
         } else {
@@ -70,7 +68,37 @@ const IdProducto = () => {
     imagen,
     votos,
     creador,
+    haVotado,
   } = producto;
+
+  //   Administrar y validar los votos
+  const votarProducto = () => {
+    if (!usuario) {
+      return router.push("/login");
+    }
+
+    // verificar si el usuario actual ha votado
+    if (haVotado.includes(usuario.uid)) return;
+
+    // guardar el ID del usuario que ha votado
+    const nuevoHaVotado = [...haVotado, usuario.uid];
+
+    // obtener y sumar un nuevo voto
+    const nuevoTotal = nuevoHaVotado.length;
+
+    // actualizar en la BD
+    firebase.db.collection("productos").doc(id).update({
+      votos: nuevoTotal,
+      haVotado: nuevoHaVotado,
+    });
+
+    // actualizar el state
+    setProducto({
+      ...producto,
+      votos: nuevoTotal,
+      haVotado,
+    });
+  };
 
   return (
     <Layout>
@@ -144,7 +172,7 @@ const IdProducto = () => {
                   >
                     {votos} Votos
                   </p>
-                  {usuario && <Boton>Votar</Boton>}
+                  {usuario && <Boton onClick={votarProducto}>Votar</Boton>}
                 </div>
               </aside>
             </ContenedorProducto>
