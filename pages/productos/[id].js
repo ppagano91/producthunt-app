@@ -14,6 +14,7 @@ import { es } from "date-fns/locale";
 
 import { Campo, InputSubmit } from "../../components/user-interface/Formulario";
 import Boton from "../../components/user-interface/Boton";
+import { set } from "date-fns";
 
 const ContenedorProducto = styled.div`
   @media (min-width: 768px) {
@@ -35,7 +36,7 @@ const IdProducto = () => {
   } = router;
 
   // context de firebase
-  const { firebase } = useContext(FirebaseContext);
+  const { usuario, firebase } = useContext(FirebaseContext);
 
   useEffect(() => {
     if (id) {
@@ -43,18 +44,21 @@ const IdProducto = () => {
         const productoQuery = await firebase.db.collection("productos").doc(id);
         const producto = await productoQuery.get();
         if (producto.exists) {
+          console.log(producto.exists);
           console.log(producto.data());
           setProducto(producto.data());
+          setError(false);
         } else {
           setError(true);
         }
-        setError(false);
       };
       obtenerProducto();
+    } else {
+      setError(true);
     }
   }, [id]);
 
-  if (Object.keys(producto).length === 0) return "Cargando...";
+  //   if (Object.keys(producto).length === 0) return "Cargando...";
 
   const {
     nombre,
@@ -71,70 +75,81 @@ const IdProducto = () => {
   return (
     <Layout>
       <>
-        {error && <Error404 />}
-        <div className="contenedor">
-          <h1
-            css={css`
-              text-align: center;
-              margin-top: 5rem;
-            `}
-          >
-            {nombre}
-          </h1>
-          <ContenedorProducto>
-            <div>
-              <p>
-                Publicado hace{" "}
-                {formatDistanceToNow(new Date(creado), { locale: es })}
-              </p>
-              <p>
-                Por <strong>{creador.nombre}</strong> de <i>{empresa}</i>
-              </p>
-              <img src={imagen} />
-              <p>{descripcion}</p>
-              <h2>Agrega tu comentario</h2>
-              <form>
-                <Campo>
-                  <input type="text" name="mensaje" />
-                </Campo>
-                <InputSubmit type="submit" value="Agregar Comentario" />
-              </form>
-              <h2
-                css={css`
-                  margin: 2rem 0;
-                `}
-              >
-                Comentarios
-              </h2>
-              {comentarios.map((comentario) => (
-                <li>
-                  <p>{comentario.nombre}</p>
-                  <p>Escrito por: {comentario.usuarioNombre}</p>
-                </li>
-              ))}
-            </div>
-            <aside>
-              <Boton target="_blank" bgColor="true" href={url}>
-                Visitar URL
-              </Boton>
+        {error ? (
+          <Error404 msg="Producto no existente" />
+        ) : Object.keys(producto).length === 0 ? (
+          "Cargando..."
+        ) : (
+          <div className="contenedor">
+            <h1
+              css={css`
+                text-align: center;
+                margin-top: 5rem;
+              `}
+            >
+              {nombre}
+            </h1>
+            <ContenedorProducto>
+              <div>
+                <p>
+                  Publicado hace{" "}
+                  {formatDistanceToNow(new Date(creado), { locale: es })}
+                </p>
+                <p>
+                  Por <strong>{creador.nombre}</strong> de <i>{empresa}</i>
+                </p>
+                <img src={imagen} />
+                <p>{descripcion}</p>
 
-              <div
-                css={css`
-                  margin-top: 5rem;
-                `}
-              >
-                <p
+                {usuario && (
+                  <>
+                    <h2>Agrega tu comentario</h2>
+                    <form>
+                      <Campo>
+                        <input type="text" name="mensaje" />
+                      </Campo>
+                      <InputSubmit type="submit" value="Agregar Comentario" />
+                    </form>
+                  </>
+                )}
+
+                <h2
                   css={css`
-                    text-align: center;
+                    margin: 2rem 0;
                   `}
                 >
-                  {votos} Votos
-                </p>
-                <Boton>Votar</Boton>
+                  Comentarios
+                </h2>
+                {comentarios.map((comentario) => (
+                  <li>
+                    <p>{comentario.nombre}</p>
+                    <p>Escrito por: {comentario.usuarioNombre}</p>
+                  </li>
+                ))}
               </div>
-            </aside>
-          </ContenedorProducto>
-        </div>
+              <aside>
+                <Boton target="_blank" bgColor="true" href={url}>
+                  Visitar URL
+                </Boton>
+
+                <div
+                  css={css`
+                    margin-top: 5rem;
+                  `}
+                >
+                  <p
+                    css={css`
+                      text-align: center;
+                    `}
+                  >
+                    {votos} Votos
+                  </p>
+                  {usuario && <Boton>Votar</Boton>}
+                </div>
+              </aside>
+            </ContenedorProducto>
+          </div>
+        )}
       </>
     </Layout>
   );
