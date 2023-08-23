@@ -8,3 +8,7 @@ npm install firebase
 npm install firebase-admin
 
 npm install react-firebase-file-uploader@latest --force
+
+### Otras librerías
+
+npm install date-fns --force
