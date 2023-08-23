@@ -111,7 +111,7 @@ const DetallesProducto = ({ producto }) => {
             </div>
           </Comentarios>
           <p>
-            Publicado hace:{" "}
+            Publicado hace{" "}
             {formatDistanceToNow(new Date(creado), { locale: es })}
           </p>
         </div>
