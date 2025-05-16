@@ -10,21 +10,28 @@ const InputText = styled.input`
 `;
 
 const InputSubmit = styled.button`
+  position: absolute;
+  top: 50%;
+  right: 0.5rem;
+  transform: translateY(-50%);
   height: 3rem;
   width: 3rem;
-  display: block;
-  background-size: 4rem;
-  background-image: url("/static/img/buscar.png");
-  background-repeat: no-repeat;
-  position: absolute;
-  right: 1rem;
-  top: 1px;
-  background-color: white;
+  padding: 0;
   border: none;
-  text-indent: -9999px;
+  background: transparent;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   &:hover {
     cursor: pointer;
+  }
+
+  img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
   }
 `;
 
@@ -45,6 +52,8 @@ const Buscar = () => {
     <form
       css={css`
         position: relative;
+        /* display: flex;
+        flex-direction: row; */
       `}
       onSubmit={buscarProducto}
     >
@@ -53,7 +62,9 @@ const Buscar = () => {
         placeholder="Buscar Productos"
         onChange={(e) => setBusqueda(e.target.value)}
       />
-      <InputSubmit type="submit">Buscar</InputSubmit>
+      <InputSubmit type="submit">
+        <img src="/static/img/buscar.png" alt="Buscar" />
+      </InputSubmit>
     </form>
   );
 };

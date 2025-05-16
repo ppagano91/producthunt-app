@@ -25,6 +25,7 @@ const DescripcionProducto = styled.div`
 const Titulo = styled.a`
   font-size: 2rem;
   font-weight: bold;
+  color: black;
   margin: 0;
   &:hover {
     cursor: pointer;
@@ -41,6 +42,7 @@ const Comentarios = styled.div`
   margin-top: 2rem;
   display: flex;
   align-items: center;
+  color: grey;
   div {
     display: flex;
     align-items: center;
@@ -62,6 +64,10 @@ const Comentarios = styled.div`
   }
 `;
 
+const FechaProducto = styled.p`
+  color:grey;
+`
+
 const Imagen = styled.img`
   width: 200px;
 `;
@@ -70,6 +76,7 @@ const Votos = styled.div`
   flex: 0 0 auto;
   text-align: center;
   border: 1px solid #e1e1e1;
+  color: black;
   padding: 1rem 3rem;
   div {
     font-size: 2rem;
@@ -110,10 +117,10 @@ const DetallesProducto = ({ producto }) => {
               <p>{comentarios.length} Comentarios</p>
             </div>
           </Comentarios>
-          <p>
+          <FechaProducto>
             Publicado hace{" "}
             {formatDistanceToNow(new Date(creado), { locale: es })}
-          </p>
+          </FechaProducto>
         </div>
       </DescripcionProducto>
       <Votos>
